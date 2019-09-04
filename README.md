@@ -38,7 +38,7 @@ one proxy per line
 
 * [x] Basic HTTP Proxy: GET, POST, PUT, DELETE support
 * [x] Basic HTTP Proxy: OPTIONS support
-* [ ] HTTPS Proxy: CONNECT support
+* [X] HTTPS Proxy: CONNECT support
 * [x] Make context.request & context.response writable
 * [ ] MITM HTTPS Proxy
 

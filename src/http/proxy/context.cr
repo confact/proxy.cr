@@ -1,4 +1,5 @@
 require "./client"
+
 class HTTP::Proxy::Server < HTTP::Server
   class Context < HTTP::Server::Context
     def perform
@@ -19,30 +20,26 @@ class HTTP::Proxy::Server < HTTP::Server
         upstream.sync = true
 
         upstream << "CONNECT #{host}:#{port} HTTP/1.1\r\n"
-        puts "CONNECT #{host}:#{port} HTTP/1.1\r\n"
-        #upstream << "Host: #{host}\r\n"
-        #puts "Host: #{host}\r\n"
+        upstream << "Host: #{host}\r\n"
 
         unless username.blank?
           credentials = Base64.strict_encode("#{username}:#{password}")
           credentials = "#{credentials}\n".gsub(/\s/, "")
           upstream << "Proxy-Authorization: Basic #{credentials}\r\n"
-          puts "Proxy-Authorization: Basic #{credentials}\r\n"
         end
 
-        #upstream << "\r\n"
+        puts "Using #{proxy_server} with username #{username}"
+
+        upstream << "\r\n"
+        upstream.gets
+        upstream.gets
 
         @response.reset
+
         @response.upgrade do |downstream|
           downstream = downstream.as(TCPSocket)
           downstream.sync = true
-
-          #message = downstream.gets
-          #puts message
-
           spawn do
-            #spawn { IO.copy(upstream, STDOUT) }
-            spawn { IO.copy(downstream, STDOUT) }
             spawn { IO.copy(upstream, downstream) }
             spawn { IO.copy(downstream, upstream) }
           end
