@@ -1,8 +1,9 @@
-name: proxy
+name: proxy-rotator
 version: 0.1.0
 
 authors:
   - Theo Li <bbtfrr@gmail.com>
+  - confact <confact@fastmail.com>
 
 crystal: 0.20.5
 
