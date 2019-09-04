@@ -8,7 +8,7 @@ Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  proxy:
+  proxy_rotator:
     github: confact/proxy_rotator.cr
 ```
 
