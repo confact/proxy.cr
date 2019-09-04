@@ -1,6 +1,6 @@
 # proxy
 
-A HTTP Proxy written in Crystal inspired by Ruby's WEBrick::HTTPProxyServer
+A HTTP Proxy rotator written in Crystal inspired by Ruby's WEBrick::HTTPProxyServer
 
 ## Installation
 
@@ -9,25 +9,36 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   proxy:
-    github: bbtfr/proxy.cr
+    github: confact/proxy.cr
 ```
 
 ## Usage
 
 ```crystal
-require "http/proxy"
+require "../src/proxy"
 
-server = HTTP::Proxy.new(8080)
+server = HTTP::Proxy::Server.new(8080, [
+  HTTP::LogHandler.new,
+])
 
-puts "Listening on http://127.0.0.1:8080"
+address = server.bind_tcp 8080
+puts "Listening on http://#{address}"
 server.listen
 ```
+
+have a file of proxies named `proxylist.txt` in same folder as the sample file, like in the samples folder if you want to run that one.
+
+The structure is:
+```
+ip:port:username:password
+```
+one proxy per line
 
 ## Development
 
 * [x] Basic HTTP Proxy: GET, POST, PUT, DELETE support
 * [x] Basic HTTP Proxy: OPTIONS support
-* [x] HTTPS Proxy: CONNECT support
+* [ ] HTTPS Proxy: CONNECT support
 * [x] Make context.request & context.response writable
 * [ ] MITM HTTPS Proxy
 
