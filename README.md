@@ -9,13 +9,13 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   proxy:
-    github: confact/proxy.cr
+    github: confact/proxy_rotator.cr
 ```
 
 ## Usage
 
 ```crystal
-require "../src/proxy"
+require "http/proxy"
 
 server = HTTP::Proxy::Server.new(8080, [
   HTTP::LogHandler.new,
