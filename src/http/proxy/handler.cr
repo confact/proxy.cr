@@ -5,12 +5,12 @@ class HTTP::Proxy::Handler
 
   property next : Handler | Proc | Nil
 
-  alias Proc = HTTP::Proxy::Context ->
+  alias Proc = HTTP::Proxy::Server::Context ->
 
   def call(context)
     request = context.request
     response = context.response
-    context = HTTP::Proxy::Context.new(request, response)
+    context = HTTP::Proxy::Server::Context.new(request, response)
     call_next(context)
     context.perform
   end

@@ -1,14 +1,9 @@
-require "../http/proxy"
+require "../src/proxy"
 
-server = HTTP::Proxy.new(8080, handlers: [
+server = HTTP::Proxy::Server.new(8080, [
   HTTP::LogHandler.new,
-]) do |context|
-  context.perform
+])
 
-  context.response.content_type = "text/plain"
-  context.response.clear
-  context.response.puts "Hello world! The time is #{Time.now}"
-end
-
-puts "Listening on http://127.0.0.1:8080"
+address = server.bind_tcp 8080
+puts "Listening on http://#{address}"
 server.listen
