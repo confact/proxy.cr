@@ -11,7 +11,7 @@ class Proxylist::Getter
     lines = get_file.split("\n")
     proxies = lines.map do |line|
       line.split(':')
-    end
+    end.reject { |x| x.size < 4 }
     proxies.sample
   end
 end
