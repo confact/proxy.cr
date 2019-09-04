@@ -3,8 +3,9 @@ version: 0.1.0
 
 authors:
   - Theo Li <bbtfrr@gmail.com>
+  - Anton Maminov <anton.maminov@gmail.com>
   - confact <confact@fastmail.com>
 
-crystal: 0.20.5
+crystal: 0.30.0
 
 license: MIT

@@ -53,3 +53,5 @@ one proxy per line
 ## Contributors
 
 - [bbtfr](https://github.com/bbtfr) Theo Li - creator, maintainer
+- [mamantoha](https://github.com/mamantoha) Anton Maminov - Contributor
+- [confact](https://github.com/confact) Håkan Nylén - proxy rotator maintainer
