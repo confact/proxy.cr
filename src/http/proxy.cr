@@ -2,6 +2,7 @@ require "http/client"
 require "http/server"
 require "./proxy/handler"
 require "./proxy/response"
+require "./proxy/basic_auth"
 
 class HTTP::Proxy::Server < HTTP::Server
   def self.new(port)
