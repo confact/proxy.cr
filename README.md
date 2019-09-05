@@ -26,7 +26,7 @@ puts "Listening on http://#{address}"
 server.listen
 ```
 
-have a file of proxies named `proxylist.txt` in same folder as the sample file, like in the samples folder if you want to run that one.
+have a file of proxies named `proxylist.txt` in same folder as the sample file, like in the samples folder if you want to run that one. you can also change the path to the file by setting the env `PROXYLIST_PATH` to the path to the file.
 
 The structure is:
 ```
@@ -40,6 +40,7 @@ one proxy per line
 * [x] Basic HTTP Proxy: OPTIONS support
 * [X] HTTPS Proxy: CONNECT support
 * [x] Make context.request & context.response writable
+* [x] Basic (Proxy) Authorization support
 * [ ] MITM HTTPS Proxy
 
 ## Contributing

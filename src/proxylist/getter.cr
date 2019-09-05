@@ -4,7 +4,8 @@ class Proxylist::Getter
   end
 
   def self.get_file
-    File.read("./proxylist.txt")
+    ENV["PROXYLIST_PATH"] ||= "./proxylist.txt"
+    File.read(ENV["PROXYLIST_PATH"])
   end
 
   def self.get_random_proxy
