@@ -2,8 +2,13 @@ require "./client"
 
 class HTTP::Proxy::Server < HTTP::Server
   class Context < HTTP::Server::Context
+
+    def initialize(@request : Request, @response : Response, @proxy_addresses : Proxylist::Getter)
+    end
+
     def perform
-      proxy_address = Proxylist::Getter.get_proxy
+      proxy_address = @proxy_addresses.get_proxy
+      return if proxy_address.nil?
       proxy_server = proxy_address[0]
       proxy_port = proxy_address[1]
       username = proxy_address[2]

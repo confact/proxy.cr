@@ -3,8 +3,10 @@ require "http/server"
 require "./proxy/handler"
 require "./proxy/response"
 require "./proxy/basic_auth"
+require "../proxylist/getter"
 
 class HTTP::Proxy::Server < HTTP::Server
+
   def self.new(port)
     new("127.0.0.1", port)
   end
@@ -51,9 +53,13 @@ class HTTP::Proxy::Server < HTTP::Server
   end
 
   def self.build_middleware(handler : HTTP::Proxy::Handler::Proc? = nil)
-    proxy_handler = HTTP::Proxy::Handler.new
+    proxy_addresses = Proxylist::Getter.new
+    proxy_handler = HTTP::Proxy::Handler.new(proxy_addresses)
     proxy_handler.next = handler if handler
     proxy_handler
+  rescue Proxylist::Getter::Exception
+    puts "Couldn't find proxylist file - exiting"
+    exit(0)
   end
 
   def self.build_middleware(handlers, last_handler : HTTP::Proxy::Handler::Proc? = nil)
