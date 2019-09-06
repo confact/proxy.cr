@@ -19,7 +19,7 @@ class Proxy::Rotator::BasicAuth
         return call_next(context)
       end
     end
-
+    puts "AUTH Failed - returned 407"
     context.response.headers.add("Proxy-Authenticate", "Basic realm=\"hello\"")
     context.response.status_code = 407
     context.response.puts("")
