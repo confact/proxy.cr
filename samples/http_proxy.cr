@@ -1,4 +1,4 @@
-require "../src/proxy"
+require "../src/proxy_rotator"
 require "option_parser"
 
 host = "127.0.0.1"
@@ -16,9 +16,9 @@ end
 
 logins = [["test", "pass"], ["uniq", "1234"]]
 
-server = HTTP::Proxy::Server.new(host, port, handlers: [
+server = Proxy::Rotator::Server.new(host, port, handlers: [
   HTTP::LogHandler.new,
-  HTTP::Proxy::BasicAuth.new(logins)
+  Proxy::Rotator::BasicAuth.new(logins)
 ])
 
 address = server.bind_tcp port

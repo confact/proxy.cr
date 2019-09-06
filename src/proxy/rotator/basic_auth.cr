@@ -1,4 +1,4 @@
-class HTTP::Proxy::BasicAuth
+class Proxy::Rotator::BasicAuth
   include HTTP::Handler
 
   @logins : Array(Array(String))

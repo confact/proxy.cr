@@ -1,17 +1,17 @@
 require "http/client"
 require "http/server"
-require "./proxy/handler"
-require "./proxy/response"
-require "./proxy/basic_auth"
-require "../proxylist/getter"
+require "./rotator/handler"
+require "./rotator/response"
+require "./rotator/basic_auth"
+require "./rotator/getter"
 
-class HTTP::Proxy::Server < HTTP::Server
+class Proxy::Rotator::Server < HTTP::Server
 
   def self.new(port)
     new("127.0.0.1", port)
   end
 
-  def self.new(port, &handler : HTTP::Proxy::Handler::Proc)
+  def self.new(port, &handler : Proxy::Rotator::Handler::Proc)
     new("127.0.0.1", port, &handler)
   end
 
@@ -28,41 +28,41 @@ class HTTP::Proxy::Server < HTTP::Server
   end
 
   def initialize(@host : String, @port : Int32)
-    handler = HTTP::Proxy.build_middleware
+    handler = Proxy::Rotator::Server.build_middleware
     @processor = RequestProcessor.new handler
   end
 
-  def initialize(@host : String, @port : Int32, &handler : HTTP::Proxy::Handler::Proc)
-    handler = HTTP::Proxy::Server.build_middleware handler
+  def initialize(@host : String, @port : Int32, &handler : Proxy::Rotator::Handler::Proc)
+    handler = Proxy::Rotator::Server.build_middleware handler
     @processor = RequestProcessor.new handler
   end
 
-  def initialize(@host : String, @port : Int32, handlers : Array(HTTP::Handler), &handler : HTTP::Proxy::Handler::Proc)
+  def initialize(@host : String, @port : Int32, handlers : Array(HTTP::Handler), &handler : Proxy::Rotator::Handler::Proc)
     handler = HTTP::Proxy::Server.build_middleware handlers, handler
     @processor = RequestProcessor.new handler
   end
 
   def initialize(@host : String, @port : Int32, handlers : Array(HTTP::Handler))
-    handler = HTTP::Proxy::Server.build_middleware handlers
+    handler = Proxy::Rotator::Server.build_middleware handlers
     @processor = RequestProcessor.new handler
   end
 
-  def initialize(@host : String, @port : Int32, handler : HTTP::Handler | HTTP::Proxy::Handler::Proc)
-    handler = HTTP::Proxy::Server.build_middleware handler
+  def initialize(@host : String, @port : Int32, handler : HTTP::Handler | Proxy::Rotator::Handler::Proc)
+    handler = Proxy::Rotator::Server.build_middleware handler
     @processor = RequestProcessor.new handler
   end
 
-  def self.build_middleware(handler : HTTP::Proxy::Handler::Proc? = nil)
-    proxy_addresses = Proxylist::Getter.new
-    proxy_handler = HTTP::Proxy::Handler.new(proxy_addresses)
+  def self.build_middleware(handler : Proxy::Rotator::Handler::Proc? = nil)
+    proxy_addresses = Proxy::Rotator::Getter.new
+    proxy_handler = Proxy::Rotator::Handler.new(proxy_addresses)
     proxy_handler.next = handler if handler
     proxy_handler
-  rescue Proxylist::Getter::Exception
+  rescue Proxy::Rotator::Getter::Exception
     puts "Couldn't find proxylist file - exiting"
     exit(0)
   end
 
-  def self.build_middleware(handlers, last_handler : HTTP::Proxy::Handler::Proc? = nil)
+  def self.build_middleware(handlers, last_handler : Proxy::Rotator::Handler::Proc? = nil)
     proxy_handler = build_middleware last_handler
     return proxy_handler if handlers.empty?
 

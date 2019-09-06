@@ -1,4 +1,4 @@
-class Proxylist::Getter
+class Proxy::Rotator::Getter
 
   @file : String?
 
@@ -16,7 +16,7 @@ class Proxylist::Getter
 
   def get_file
     ENV["PROXYLIST_PATH"] ||= "./proxylist.txt"
-    raise Proxylist::Getter::Exception.new("Couldn't find file") unless File.exists?(ENV["PROXYLIST_PATH"])
+    raise Proxy::Rotator::Getter::Exception.new("Couldn't find file") unless File.exists?(ENV["PROXYLIST_PATH"])
     @file ||= File.read(ENV["PROXYLIST_PATH"])
   end
 
@@ -40,6 +40,6 @@ class Proxylist::Getter
   end
 end
 
-class Proxylist::Getter::Exception < Exception
+class Proxy::Rotator::Getter::Exception < Exception
 
 end

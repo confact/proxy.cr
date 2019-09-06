@@ -1,9 +1,9 @@
 require "./client"
 
-class HTTP::Proxy::Server < HTTP::Server
+class Proxy::Rotator::Server < HTTP::Server
   class Context < HTTP::Server::Context
 
-    def initialize(@request : Request, @response : Response, @proxy_addresses : Proxylist::Getter)
+    def initialize(@request : HTTP::Request, @response : HTTP::Server::Response, @proxy_addresses : Proxy::Rotator::Getter)
     end
 
     def perform
@@ -50,7 +50,7 @@ class HTTP::Proxy::Server < HTTP::Server
           end
         end
       else
-        proxy_client = HTTP::Proxy::Client.new(proxy_server, proxy_port.to_i, username, password)
+        proxy_client = Proxy::Rotator::Client.new(proxy_server, proxy_port.to_i, username, password)
         uri = URI.parse @request.resource
         client = HTTP::Client.new(uri)
         client.set_proxy(proxy_client)

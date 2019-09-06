@@ -6,7 +6,7 @@ require "base64"
   require "openssl"
 {% end %}
 
-class HTTP::Proxy::Client
+class Proxy::Rotator::Client
   getter host : String
   getter port : Int32
   property username : String?
@@ -89,7 +89,7 @@ class HTTP::Proxy::Client
 end
 
 class HTTP::Client
-  def set_proxy(proxy : HTTP::Proxy::Client?)
+  def set_proxy(proxy : Proxy::Rotator::Client?)
     return unless proxy
 
     begin
